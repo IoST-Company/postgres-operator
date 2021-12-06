@@ -1,4 +1,12 @@
 namespace: postgres-operator
 
+secretGenerator:
+- name: hippo-pgbackrest-secrets
+  files:
+  - pgbackrest-secrets.conf
+
+generatorOptions:
+  disableNameSuffixHash: true
+
 resources:
 - postgres.yaml

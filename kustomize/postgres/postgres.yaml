@@ -7,15 +7,30 @@ spec:
   postgresVersion: 13
   instances:
     - name: instance1
+      replicas: 2
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
         resources:
           requests:
             storage: 1Gi
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: storage
+                operator: In
+                values:
+                - longhorn
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.36-0
+      configuration:
+      - secret:
+          name: hippo-pgbackrest-secrets
+      global:
+        repo1-cipher-type: aes-256-cbc
       repos:
       - name: repo1
         volume:
