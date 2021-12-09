@@ -26,6 +26,16 @@ spec:
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.36-0
+      repoHost:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: storage
+                  operator: In
+                  values:
+                  - longhorn
       configuration:
       - secret:
           name: hippo-pgbackrest-secrets
@@ -40,15 +50,6 @@ spec:
             resources:
               requests:
                 storage: 1Gi
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchExpressions:
-                  - key: storage
-                    operator: In
-                    values:
-                    - longhorn
   proxy:
     pgBouncer:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:centos8-1.16-0
