@@ -40,14 +40,15 @@ spec:
             resources:
               requests:
                 storage: 1Gi
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-              - matchExpressions:
-                - key: storage
-                  operator: In
-                  values:
-                  - longhorn
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: storage
+                    operator: In
+                    values:
+                    - longhorn
   proxy:
     pgBouncer:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:centos8-1.16-0
